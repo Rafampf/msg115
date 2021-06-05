@@ -1,0 +1,201 @@
+#:import ScrollEffect  kivy.effects.scroll.ScrollEffect
+
+<Label>:
+    halign: 'center'
+
+<Erro>:
+    size_hint: 0.1 * 1.6, 0.05 *0.9
+    color: 0,0,0,1
+    text: "Error"
+    background_color: 1,0,0,1
+    background_down: "branco.png"
+
+<Image>:
+    allow_stretch: True
+    keep_ratio: False
+
+
+
+
+<CircularButtonC>:
+    canvas:
+        Color:
+            rgb: (0.81, 0, 0, 1) if self.state == 'normal' else (0.53, 0.98, 0.09, 1)
+        RoundedRectangle:
+            size: (self.size)
+            pos: (self.pos)
+            radius: [400, ]
+
+<CircularButtonE>:
+    canvas:
+        Color:
+            rgb: (0.81, 0, 0, 1) if self.state == 'normal' else (0.45, 0, 0, 1)
+        RoundedRectangle:
+            size: (self.size)
+            pos: (self.pos)
+            radius: [400, ]
+
+<Fundo@FloatLayout>:
+    FloatLayout:
+        canvas:
+            Color:
+                rgba: 0.05, 0.05, 0.05, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+[Barra@FloatLayout]:
+    FloatLayout:
+        size_hint: 1, 0.1
+        canvas:
+            Color:
+                rgba: 0.45, 0.03, 0.03, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+    GridLayout:
+        cols: 2
+        size_hint: 1, 0.1
+        Button:
+            background_color: (0.45, 0.03, 0.03, ctx.btn1)
+            text: "Levels"
+            color: (1, 0.95, 0.95, 0.9)
+            on_release:
+                app.root.current = "m_lvl"
+        Button:
+            background_color: (0.45, 0.03, 0.03, ctx.btn2)
+            text: "Teoria"
+            color: (1, 0.95, 0.95, 0.9)
+            on_release:
+                app.root.current = "m_teo"
+
+<Topo@FloatLayout>:
+    FloatLayout:
+        size_hint: 1, 0.1
+        pos_hint: {"top": 1}
+        canvas:
+            Color:
+                rgba: 0.45, 0.03, 0.03, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+<Inicio>:
+    Fundo:
+    FloatLayout:
+        Label:
+            color: 0, 0.482, 0, 1
+            text: "Mensagem\nSecreta"
+            font_size: root.height/12
+            size_hint: 1, 0.1
+            pos_hint: {"top": 0.8}
+
+
+        Button:
+            size_hint: 0.8, 0.1
+            pos_hint: {"top": 0.5, "center_x": 0.5}
+            text: "Jogar"
+            font_size: root.height/14
+            color: 0, 0.8, 0, 1
+            background_normal: "branco.png"
+            background_color: 0.02, 0.1, 0.02, 1
+            on_release: app.root.current = 'game'
+        Label:
+            text: "Created by Rafael Monteiro"
+            font_size: root.height/32
+            size_hint: 1, 0.1
+            color: 1,1,1, 0.1
+            pos_hint: {"top": 0.08}
+
+<GameOver>:
+    FloatLayout:
+        Fundo:
+        Label:
+            text: "Game Over"
+            font_size: root.height/14
+            size_hint: 1, 0.1
+            pos_hint: {"top": 0.9}
+            color: 0, 0.482, 0, 1
+        Label:
+            id: pontuacao
+            text: root.pont + str(root.us)[:-2]
+            font_size: root.height/20
+            size_hint: 1, 0.1
+            pos_hint: {"top": 0.8}
+            color: 0, 0.482, 0, 1
+        Label:
+            id: letra
+            text: "Nenhuma letra\nconquistada"
+            font_size: root.height/25
+            size_hint: 1, 0.1
+            pos_hint: {"top": 0.18}
+            color: 0, 0.482, 0, 1
+        Image:
+            source: "Hgame2.png"
+            keep_ratio: True
+            size_hint: 0.4, 0.4
+            pos_hint: {"top": 0.8, "center_x": 0.5}
+        Button:
+            pos_hint: {"top": 0.45, "center_x": 0.5}
+            font_size: self.height/3
+            text: "Tentar Novamente"
+            color: 0, 0.8, 0, 1
+            background_normal: "branco.png"
+            background_color: 0.02, 0.1, 0.02, 1
+            size_hint: 0.8, 0.1
+            on_release: app.root.current = "game"
+        Button:
+            pos_hint: {"top": 0.3, "center_x": 0.5}
+            font_size: self.height/3
+            color: 0, 0.8, 0, 1
+            background_normal: "branco.png"
+            background_color: 0.02, 0.1, 0.02, 1
+            text: "Voltar"
+            size_hint: 0.8, 0.1
+            on_release: app.root.current = "inicio"
+
+<Obstaculo>:
+    size_hint: None, None
+    width: "50dp"
+
+<Game>:
+    canvas:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            source: "sangue.png"
+    FloatLayout:
+        Label:
+            id: pontos
+            text: "Score: " + str(root.score)[:-2]
+            color: 0, 0.482, 0, 1
+            font_size: root.height/12
+            bold: True
+            size_hint_y: None
+            height: self.font_size
+            y: root.height*0.9
+        Player:
+            id: player
+            size_hint: None, None
+            size: root.height/15, root.height/15
+            x: root.width/20
+            y: root.height/2
+
+<ButtonCortez@Button>:
+    font_size: int(self.height/2)
+    background_color: 0.35,0.35,0.35,1
+
+<ButtonM@Button>:
+    background_normal: "branco.png"
+    background_down: "branco.png"
+    background_disabled_normal: "branco.png"
+    disabled_color: 0,0,0,1
+    text: "?"
+    color: 0,0,0,1
+    font_size: int(self.height)
+
+
+
+
